@@ -1,5 +1,12 @@
+require('dotenv').config()
 // Require express to set up our web framework
 const express = require('express')
+const Tenor = require('tenorjs').client({
+  // Access key from .env file
+  "Key": process.env.API_KEY,
+  "Locale": "en_US", // Tenorjs allows us to customize locale based on our region
+  "Filter": "high", // "off", "low", "medium", "high"
+})
 
 // Initialize our app
 const app = express()
@@ -13,8 +20,22 @@ app.set('view engine', 'handlebars')
 
 // Routes
 app.get('/', (req, res) => {
-  console.log(req.query) // => "term: hey"
-  res.render('home')
+  // Handle home page prior to user entering search
+  term = ''
+  if (req.query.term) {
+    term = req.query.term
+  }
+  // Tenor.search.Query("SEARCH KEYWORD HERE", "LIMIT HERE")
+  Tenor.Search.Query(term, '10')
+    .then(response => {
+      // Store gifs we get back from search
+      const gifs = response
+      // pass the gifs to our home template
+      res.render('home', { gifs })
+    })
+    .catch(err => {
+      console.log(err)
+    })
 })
 
 app.get('/greetings/:name', (req, res) => {
