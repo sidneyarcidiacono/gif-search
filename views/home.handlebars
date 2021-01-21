@@ -3,9 +3,12 @@
 <form action="/">
   <input type="text" name="term">
   <button type="submit">Search</button>
+  <button type="button" class="trend-button">Trending</button>
 </form>
 
 <!-- Handlebars "for each statement" -->
+<div class="row-container">
+
 {{#each gifs}}
 
 <!-- For each gif passed in, display using url & id -->
@@ -18,3 +21,5 @@ data-aspect-ratio="1.2266666666666666">
 
 <!-- End loop -->
 {{/each}}
+
+</div>

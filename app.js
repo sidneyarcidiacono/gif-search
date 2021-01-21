@@ -14,6 +14,9 @@ const app = express()
 // Middleware
 const exphbs = require('express-handlebars')
 
+// Tell our app where to find public files
+app.use(express.static('public'))
+
 // Tell our app what to parse when we tell it to res.render()
 app.engine('handlebars', exphbs({defaultLayout: 'main'}))
 app.set('view engine', 'handlebars')
